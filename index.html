@@ -1,0 +1,48 @@
+<!-- 1. PUT YOUR CSS AT THE VERY TOP -->
+<style>
+body {
+    font-family: sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+.calculator-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 320px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+label { display: block; margin-bottom: 8px; font-weight: bold; }
+input { width: 90%; padding: 10px; margin-bottom: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 6px;}
+.promo-text { color: #28a745; font-size: 13px; font-weight: bold; }
+#error-message { color: #d9534f; font-size: 14px; }
+.hidden { display: none; }
+.summary-box { background: #eef7f2; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+button { width: 100%; background-color: #28a745; color: white; border: none; padding: 12px; font-size: 16px; border-radius: 6px; font-weight: bold; }
+button:disabled { background-color: #cccccc; }
+</style>
+
+<div class="calculator-card">
+    <h2>Book Your Stay</h2>
+    <p>Rate: $120 / night</p>
+    <p class="promo-text">⚡ 5+ nights = 10% off | 10+ nights = 20% off!</p>
+
+    <label for="nights-input">Number of Nights:</label>
+    <input type="number" id="nights-input" value="1">
+    
+    <p id="error-message" class="hidden">Please enter 1 or more nights.</p>
+
+    <div class="summary-box">
+        <h3>Total Summary</h3>
+        <p>Discount Applied: <span id="discount-applied">0%</span></p>
+        <h2>Total Cost: $<span id="total-price">120</span></h2>
+    </div>
+
+    <button id="book-btn">Confirm & Pay</button>
+</div>
+
+ <script> const NIGHTLY_RATE = 120; function updatePrice() { const input = document.getElementById('nights-input'); const total = document.getElementById('total-price'); const promo = document.getElementById('discount-applied'); const err = document.getElementById('error-message'); const btn = document.getElementById('book-btn'); const nights = parseInt(input.value); if (isNaN(nights) || nights < 1) { err.classList.remove('hidden'); btn.disabled = true; total.innerText = 0; promo.innerText = "0%"; return; } err.classList.add('hidden'); btn.disabled = false; let discount = 0; if (nights >= 10) discount = 0.20; else if (nights >= 5) discount = 0.10; let cost = nights * NIGHTLY_RATE; let final = cost - (cost * discount); promo.innerText = (discount * 100) + "%"; total.innerText = final.toFixed(2); } document.getElementById('nights-input').addEventListener('input', updatePrice); </script>
+ 
